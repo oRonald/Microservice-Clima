@@ -10,6 +10,8 @@ spring:
     url: jdbc:postgresql://${POSTGRES_DB_HOST}:${POSTGRES_DB_PORT}/${POSTGRES_DB_NAME}
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASS}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 server:
   port: 0
