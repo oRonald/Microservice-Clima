@@ -1,3 +1,20 @@
 spring:
   application:
     name: historico
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_DB_HOST}:${POSTGRES_DB_PORTv2}/${POSTGRES_DB_NAMEv2}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASS}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 0
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    prefer-ip-address: false
