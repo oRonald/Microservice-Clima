@@ -12,6 +12,8 @@ spring:
     password: ${POSTGRES_PASS}
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: create
 
 server:
   port: 0
