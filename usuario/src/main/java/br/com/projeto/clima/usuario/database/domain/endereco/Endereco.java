@@ -1,6 +1,6 @@
-package br.com.projeto.clima.usuario.domain.endereco;
+package br.com.projeto.clima.usuario.database.domain.endereco;
 
-import br.com.projeto.clima.usuario.domain.users.Usuario;
+import br.com.projeto.clima.usuario.database.domain.users.Usuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
