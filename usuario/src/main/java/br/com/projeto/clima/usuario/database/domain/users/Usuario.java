@@ -22,7 +22,7 @@ public class Usuario {
     private String email;
     @Column(nullable = false)
     private String name;
-    @Column(nullable = false, length = 12)
+    @Column(nullable = false, length = 60)
     private String password;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
