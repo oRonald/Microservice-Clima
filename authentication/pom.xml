@@ -51,6 +51,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>br.com.projeto.clima</groupId>
+			<artifactId>common</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
 			<groupId>com.auth0</groupId>
 			<artifactId>java-jwt</artifactId>
 			<version>4.5.0</version>
