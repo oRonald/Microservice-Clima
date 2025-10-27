@@ -1,10 +1,11 @@
-package br.com.projeto.clima.usuario.service.usuario;
+package br.com.projeto.clima.usuario.service.usuario.implementation;
 
 import br.com.projeto.clima.usuario.database.domain.endereco.Endereco;
 import br.com.projeto.clima.usuario.database.domain.users.Usuario;
 import br.com.projeto.clima.usuario.database.repositories.UsuarioRepository;
 import br.com.projeto.clima.usuario.dto.UserRegistrationRequest;
 import br.com.projeto.clima.usuario.handler.exceptions.EmailAlreadyExistsException;
+import br.com.projeto.clima.usuario.service.usuario.IUsuarioRegistroService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
