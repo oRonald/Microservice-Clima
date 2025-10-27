@@ -7,7 +7,7 @@ spring:
     username: ${RABBITMQ_USERNAME}
     password: ${RABBITMQ_PASS}
   datasource:
-    url: jdbc:postgresql://${POSTGRES_DB_HOST}:${POSTGRES_DB_PORT}/${POSTGRES_DB_NAME}
+    url: jdbc:postgresql://localhost:5432/${POSTGRES_DB_NAME}
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASS}
   jpa:
