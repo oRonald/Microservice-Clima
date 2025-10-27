@@ -23,6 +23,7 @@
         <module>historico</module>
         <module>gateway</module>
         <module>authentication</module>
+        <module>common</module>
     </modules>
 
     <properties>

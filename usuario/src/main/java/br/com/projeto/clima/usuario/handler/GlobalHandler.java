@@ -1,7 +1,7 @@
 package br.com.projeto.clima.usuario.handler;
 
 import br.com.projeto.clima.usuario.handler.exceptions.EmailAlreadyExistsException;
-import br.com.projeto.clima.usuario.handler.exceptions.GlobalErrorResponse;
+import common.exception.GlobalErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
