@@ -19,7 +19,6 @@ public class GatewayApplication {
 	public RouteLocator routes(RouteLocatorBuilder builder){
 		return builder.routes()
 				.route(r -> r.path("/usuarios/**").uri("lb://usuario"))
-				.route(r -> r.path("/auth/**").uri("lb://authentication"))
 				.build();
 	}
 
