@@ -12,8 +12,15 @@ spring:
     username: ${RABBITMQ_USERNAME}
     password: ${RABBITMQ_PASS}
 
+cache:
+  weather:
+    ttl-minutes: 15
+
 server:
   port: 0
+
+weatherstack:
+  api-key: ${WEATHER_API_KEY}
 
 eureka:
   client:
@@ -26,3 +33,4 @@ eureka:
 mq:
   queue:
     clima-request: clima-request
+    clima-response: clima-response
