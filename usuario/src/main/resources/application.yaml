@@ -30,3 +30,4 @@ eureka:
 mq:
   queue:
     clima-request: clima-request
+    clima-response: clima-response
