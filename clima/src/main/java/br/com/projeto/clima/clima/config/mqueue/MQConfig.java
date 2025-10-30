@@ -1,4 +1,4 @@
-package br.com.projeto.clima.usuario.config.rabbitmq;
+package br.com.projeto.clima.clima.config.mqueue;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.beans.factory.annotation.Value;
