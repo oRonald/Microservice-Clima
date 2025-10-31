@@ -24,8 +24,6 @@ public class WeatherResponse implements Serializable {
     @Data
     public static class Location implements Serializable {
 
-        private Long id;
-
         @JsonProperty("name")
         private String cityName;
 
@@ -42,8 +40,6 @@ public class WeatherResponse implements Serializable {
 
     @Data
     public static class CurrentWeather implements Serializable {
-
-        private Long id;
 
         private Integer temperature;
 
