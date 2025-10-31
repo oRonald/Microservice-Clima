@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -41,6 +40,8 @@ public class WeatherResponse implements Serializable {
 
         private Integer temperature;
 
+        private Astro astro;
+
         @JsonProperty("weather_descriptions")
         private List<String> weatherDescriptions;
 
@@ -55,5 +56,25 @@ public class WeatherResponse implements Serializable {
 
         @JsonProperty("is_day")
         private String isDayRaw;
+
+        @Data
+        public static class Astro implements Serializable{
+
+            @JsonProperty("sunrise")
+            private String sunrise;
+
+            @JsonProperty("sunset")
+            private String sunset;
+
+            @JsonProperty("moonrise")
+            private String moonrise;
+
+            @JsonProperty("moonset")
+            private String moonset;
+
+            @JsonProperty("moon_phase")
+            private String moonPhase;
+
+        }
     }
 }
