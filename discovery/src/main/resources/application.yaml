@@ -1,6 +1,10 @@
 spring:
   application:
     name: discovery
+  security:
+    user:
+      name: ${EUREKA_USER}
+      password: ${EUREKA_PASS}
 
 server:
   port: 8761
