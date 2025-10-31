@@ -7,19 +7,20 @@ import br.com.projeto.clima.usuario.dto.WeatherResponse;
 import br.com.projeto.clima.usuario.handler.exceptions.EmailDoesNotExistsException;
 import br.com.projeto.clima.usuario.service.mqueue.UsersWeatherPublisher;
 import br.com.projeto.clima.usuario.service.usuario.IUsuarioClimateService;
-import lombok.extern.slf4j.Slf4j;
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class UsuarioClimateService implements IUsuarioClimateService {
 
     private final UsersWeatherPublisher publisher;
     private final UsuarioRepository repository;
-    private final Map<String, WeatherResponse> responseCache = new ConcurrentHashMap<>();
+    private final Cache<String, WeatherResponse> responseCache = Caffeine.newBuilder()
+            .maximumSize(1)
+            .build();
 
     public UsuarioClimateService(UsersWeatherPublisher publisher, UsuarioRepository repository) {
         this.publisher = publisher;
@@ -47,6 +48,6 @@ public class UsuarioClimateService implements IUsuarioClimateService {
 
     @Override
     public WeatherResponse getCachedResponse(String requestId) {
-        return responseCache.get(requestId);
+        return responseCache.getIfPresent(requestId);
     }
 }
