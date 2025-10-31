@@ -25,6 +25,7 @@ public class WeatherService {
     public void getWeatherRequest(ClientDataSubscriber subscriber) {
         WeatherResponse cacheReturn = cache.get(subscriber.getCityName());
         if (cacheReturn != null) {
+            cacheReturn.setRequestId(subscriber.getRequestId());
             publisher.sendResponse(cacheReturn);
             return;
         }
