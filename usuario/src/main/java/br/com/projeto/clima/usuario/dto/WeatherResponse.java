@@ -34,8 +34,6 @@ public class WeatherResponse implements Serializable {
 
         @JsonProperty("localtime")
         private String localTime;
-
-        private LocalDateTime requestTime;
     }
 
     @Data
