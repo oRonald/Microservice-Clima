@@ -16,7 +16,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain configuration(HttpSecurity http) throws Exception{
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request ->{
-                    request.requestMatchers("/eureka/**").permitAll();
+                    request.requestMatchers("/eureka/**").authenticated();
                     request.anyRequest().authenticated();
                 })
                 .httpBasic(Customizer.withDefaults())
