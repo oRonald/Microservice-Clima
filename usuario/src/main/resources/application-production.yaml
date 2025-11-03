@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: usuario
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASS}
+  datasource:
+    url: jdbc:postgresql://localhost:5432/${POSTGRES_DB_NAME}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASS}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 0
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://${EUREKA_USER}:${EUREKA_PASS}@localhost:8761/eureka
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    prefer-ip-address: false
+
+
+mq:
+  queue:
+    clima-request: clima-request
+    clima-response: clima-response
