@@ -1,0 +1,139 @@
+networks:
+  network-clima-microservice:
+    driver: bridge
+
+services:
+  discovery:
+    build:
+      context: .
+      dockerfile: discovery/Dockerfile
+    container_name: discovery-clima-microservice
+    environment:
+      - EUREKA_USER=${EUREKA_USER}
+      - EUREKA_PASS=${EUREKA_PASS}
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f -u $EUREKA_USER:$EUREKA_PASS http://localhost:8761/ || exit 1" ]
+      interval: 10s
+      timeout: 1s
+      retries: 5
+      start_period: 3s
+    ports:
+      - "8761:8761"
+    networks:
+      - network-clima-microservice
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres-clima-microservice
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB_NAME}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASS}
+    ports:
+      - "5432:5432"
+    networks:
+      - network-clima-microservice
+
+  redis:
+    image: redis:latest
+    container_name: redis-clima-microservice
+    environment:
+        - REDIS_PASSWORD=${REDIS_PASSWORD}
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 1s
+      timeout: 3s
+      retries: 30
+      start_period: 5s
+    ports:
+      - "6379:6379"
+    networks:
+      - network-clima-microservice
+
+  rabbitmq:
+    image: rabbitmq:4-management
+    container_name: rabbitmq-clima-microservice
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: [ "CMD", "rabbitmq-diagnostics", "ping" ]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+      start_period: 15s
+    networks:
+      - network-clima-microservice
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.4.2
+    container_name: keycloak-clima-microservice
+    command: start-dev
+    environment:
+      - KC_BOOTSTRAP_ADMIN_USERNAME=${KEYCLOAK_USERNAME}
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=${KEYCLOAK_PASS}
+    ports:
+      - "8081:8080"
+    networks:
+      - network-clima-microservice
+
+  usuario:
+    build:
+      context: .
+      dockerfile: usuario/Dockerfile
+    container_name: usuario-clima-microservice
+    depends_on:
+      - discovery
+      - postgres
+      - rabbitmq
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${POSTGRES_DB_PORT}/${POSTGRES_DB_NAME}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASS}
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_RABBITMQ_USERNAME=${RABBITMQ_USERNAME}
+      - SPRING_RABBITMQ_PASSWORD=${RABBITMQ_PASS}
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://${EUREKA_USER}:${EUREKA_PASS}@discovery:8761/eureka
+    networks:
+      - network-clima-microservice
+
+  clima:
+    build:
+      context: .
+      dockerfile: clima/Dockerfile
+    container_name: clima-clima-microservice
+    depends_on:
+      discovery:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_RABBITMQ_USERNAME=${RABBITMQ_USERNAME}
+      - SPRING_RABBITMQ_PASSWORD=${RABBITMQ_PASS}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASS}
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://${EUREKA_USER}:${EUREKA_PASS}@discovery:8761/eureka
+      - REDIS_SERVER=redis
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - WEATHERSTACK_API_KEY=${WEATHER_API_KEY}
+    networks:
+      - network-clima-microservice
+
+  gateway:
+    build:
+      context: .
+      dockerfile: gateway/Dockerfile
+    container_name: gateway-clima-microservice
+    depends_on:
+      - discovery
+      - keycloak
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://${EUREKA_USER}:${EUREKA_PASS}@discovery:8761/eureka
+      - KEYCLOAK_ISSUER_URI=http://keycloak:8081/realms/clima-microservice-realm
+    ports:
+      - "8080:8080"
+    networks:
+      - network-clima-microservice
