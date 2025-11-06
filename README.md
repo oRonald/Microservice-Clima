@@ -10,6 +10,7 @@ A cidade é obtida automaticamente no momento do cadastro e usada para buscar da
 ## 🧱 Arquitetura:
 - Discovery (Eureka Server).
 - Gateway com Spring WebFlux.
+- Spring Security para autenticação e autorização via Keycloak.
 - Microsserviço de usuário (registrar e buscar clima).
 - Microsserviço de clima (responsável por consultar a API da Weatherstack e salvar a resposta em cache para utilização pelo usuário).
 - RabbitMQ utilizado para o fluxo assíncrono entre serviços.
@@ -34,6 +35,7 @@ A cidade é obtida automaticamente no momento do cadastro e usada para buscar da
 - Spring Boot (Security, JPA, Web, AMQP)
 - Spring Cloud Netflix (Discovery, Gateway)
 - Spring Cloud Open Feign
+- Keycloak
 - Redis (cache)
 - PostgreSQL
 - Docker / Docker Compose
